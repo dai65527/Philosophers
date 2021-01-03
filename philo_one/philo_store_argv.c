@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 13:34:55 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/02 19:51:14 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 15:41:09 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int			philo_store_argv(int argc, char **argv, t_philo **philo)
 
 	if (check_val(argc, argv))
 		return (-1);
-	if ((n_philo = ft_atol(argv[1])) < 1)
+	if ((n_philo = ft_atol(argv[1])) < 2)
 		return (philo_puterr_and_return("Invalid argument", -1));
 	if (argc == 6 && (n_to_eat = ft_atol(argv[5])) < 1)
 		return (philo_puterr_and_return("Invalid argument", -1));

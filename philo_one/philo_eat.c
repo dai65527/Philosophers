@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 09:29:56 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/03 15:12:21 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 15:35:22 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,29 @@
 #include <pthread.h>
 #include "philo_one.h"
 
+static void	ctrl_mutex_fork(long philo_index, long n_philo, char l_or_u)
+{
+	if (l_or_u == 'l')
+	{
+		pthread_mutex_lock(&g_mutex_fork[philo_index]);
+		pthread_mutex_lock(&g_mutex_fork[(philo_index + 1) % n_philo]);
+	}
+	else if (l_or_u == 'u')
+	{
+		pthread_mutex_unlock(&g_mutex_fork[philo_index]);
+		pthread_mutex_unlock(&g_mutex_fork[(philo_index + 1) % n_philo]);
+	}
+}
+
 static int	finish_eating(t_philo *philo)
 {
 	int		flgend;
 
 	flgend = 0;
-	pthread_mutex_lock(&g_mutex_fork[philo->index]);
+	ctrl_mutex_fork(philo->index, philo->n_philo, 'l');
 	g_fork[philo->index] = 0;
-	pthread_mutex_unlock(&g_mutex_fork[philo->index]);
-	pthread_mutex_lock(&g_mutex_fork[(philo->index + 1) % philo->n_philo]);
 	g_fork[(philo->index + 1) % philo->n_philo] = 0;
-	pthread_mutex_unlock(&g_mutex_fork[(philo->index + 1) % philo->n_philo]);
+	ctrl_mutex_fork(philo->index, philo->n_philo, 'u');
 	if (philo->n_to_eat > 0)
 	{
 		philo->n_to_eat--;
@@ -64,8 +76,7 @@ static int	get_fork(t_philo *philo)
 {
 	long	time_taken_fork;
 
-	pthread_mutex_lock(&g_mutex_fork[philo->index]);
-	pthread_mutex_lock(&g_mutex_fork[(philo->index + 1) % philo->n_philo]);
+	ctrl_mutex_fork(philo->index, philo->n_philo, 'l');
 	if (fork_is_available(philo))
 	{
 		time_taken_fork = philo_gettime();
@@ -80,8 +91,7 @@ static int	get_fork(t_philo *philo)
 			&g_mutex_fork[(philo->index + 1) % philo->n_philo]);
 		return (1);
 	}
-	pthread_mutex_unlock(&g_mutex_fork[philo->index]);
-	pthread_mutex_unlock(&g_mutex_fork[(philo->index + 1) % philo->n_philo]);
+	ctrl_mutex_fork(philo->index, philo->n_philo, 'u');
 	return (0);
 }
 
