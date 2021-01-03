@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 12:57:20 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/03 13:59:17 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 15:15:08 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ int		main(int argc, char **argv)
 	i = 0;
 	while (i < n_philo)
 		pthread_join(philo_pthread[i++], NULL);
-	philo_mutex_destroy();
+	philo_mutex_destroy(n_philo);
 	return (philo_free_ret(philo, philo_pthread, 1));
 }
