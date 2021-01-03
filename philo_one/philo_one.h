@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 13:05:10 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/03 10:36:53 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 11:50:58 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ pthread_mutex_t	g_mutex_write;
 
 int				philo_init(pthread_t **philo_pthread, long n_philo);
 void			*philo_activity(void *philo_arg);
-int				philo_eat(t_philo *philo);
-int				philo_sleep(t_philo *philo);
+long			philo_eat(t_philo *philo, long time_start_eating);
+int				philo_sleep(t_philo *philo, long time_start_eating);
+int				philo_check_dead(t_philo *philo, long time_start_eating);
 int				philo_free_ret(t_philo *philo, pthread_t *philo_pthread,
 																	int ret);
+void			philo_mutex_destroy(void);
 
 #endif

@@ -6,14 +6,13 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 12:57:20 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/03 10:36:09 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 12:12:30 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <pthread.h>
 #include "philo_one.h"
-#include <stdio.h>   
 
 int		main(int argc, char **argv)
 {
@@ -36,5 +35,6 @@ int		main(int argc, char **argv)
 	i = 0;
 	while (i < n_philo)
 		pthread_join(philo_pthread[i++], NULL);
+	philo_mutex_destroy();
 	return (philo_free_ret(philo, philo_pthread, 1));
 }

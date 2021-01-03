@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 13:23:47 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/03 10:51:55 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 12:03:53 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 # include <sys/types.h>
 
 # define PHILO_WHILE_INTERVAL_USEC	200
-# define PHILO_STATUS_TAKENFORK		1
-# define PHILO_STATUS_EATING		2
-# define PHILO_STATUS_SLEEPING		3
-# define PHILO_STATUS_THINKING		4
-# define PHILO_STATUS_DEAD			5
+# define PHILO_S_TAKENFORK			1
+# define PHILO_S_EATING				2
+# define PHILO_S_SLEEPING			3
+# define PHILO_S_THINKING			4
+# define PHILO_S_DEAD				5
 
 /*
 **	Struct to store information of philosophers.
@@ -48,8 +48,11 @@ typedef struct	s_philo
 */
 
 int				philo_store_argv(int argc, char **argv, t_philo **philo);
-int				philo_puterr_and_return(const char *str, int ret);
 long			philo_gettime(void);
+void			philo_putstatus(long philo_index, long time_ms,
+														int philo_status);
+int				philo_has_finished(long time_start, long time_to_do);
+int				philo_puterr_and_return(const char *str, int ret);
 
 /*
 **	Functions from libft.

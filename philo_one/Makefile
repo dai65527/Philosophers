@@ -6,7 +6,7 @@
 #    By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/22 12:41:57 by dnakano           #+#    #+#              #
-#    Updated: 2021/01/02 19:53:19 by dnakano          ###   ########.fr        #
+#    Updated: 2021/01/03 11:51:08 by dnakano          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,8 @@ CFLAGS		:=	-Wall -Wextra -Werror
 NAME		:=	philo_one
 SRCS		:=	main.c \
 				philo_store_argv.c \
+				philo_has_finished.c \
+				philo_putstatus.c \
 				philo_puterr_and_return.c \
 				ft_atol.c \
 				ft_isdigit.c \
@@ -24,6 +26,10 @@ SRCS		:=	main.c \
 				ft_strlen.c \
 				philo_init.c \
 				philo_activity.c \
+				philo_eat.c \
+				philo_sleep.c \
+				philo_check_dead.c \
+				philo_mutex_destroy.c \
 				philo_free_ret.c \
 				philo_gettime.c
 OBJS		:=	$(SRCS:%.c=%.o)
