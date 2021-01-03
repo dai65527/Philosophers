@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_puterr_and_return.c                          :+:      :+:    :+:   */
+/*   philo_free_ret.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/22 18:22:12 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/02 09:28:49 by dnakano          ###   ########.fr       */
+/*   Created: 2021/01/01 13:20:46 by dnakano           #+#    #+#             */
+/*   Updated: 2021/01/03 07:48:04 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "philo_utils.h"
+#include <stdlib.h>
+#include <pthread.h>
+#include <string.h>
+#include "philo_one.h"
 
 /*
-**	Function: philo_puterr_and_return
+**	Function: philo_free_ret
 **
-**	Put error message which consist of "Philosopher: " and str and return ret.
+**	Free allocatated memory for philo, philo_thread and g_fork and return value
+**	of ret.
 */
 
-int			philo_puterr_and_return(const char *str, int ret)
+int			philo_free_ret(t_philo *philo, pthread_t *philo_pthread, int ret)
 {
-	char	buf[256];
-
-	ft_strlcpy(buf, "Philosophers: ", sizeof(buf));
-	ft_strlcat(buf, str, sizeof(buf));
-	ft_strlcat(buf, "\n", sizeof(buf));
-	write(1, buf, ft_strlen(buf));
+	free(philo);
+	free(philo_pthread);
+	free(g_fork);
 	return (ret);
 }

@@ -6,11 +6,12 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 13:34:55 by dnakano           #+#    #+#             */
-/*   Updated: 2020/12/22 19:01:13 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/02 19:51:14 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <string.h>
 #include "philo_utils.h"
 
 /*
@@ -50,6 +51,26 @@ static int	check_val(int argc, char **argv)
 	return (0);
 }
 
+static void	convert_argv(char **argv, t_philo *philo, long n_philo,
+																long n_to_eat)
+{
+	long	index;
+
+	philo[0].index = 0;
+	philo[0].n_philo = n_philo;
+	philo[0].time_to_die = ft_atol(argv[2]);
+	philo[0].time_to_eat = ft_atol(argv[3]);
+	philo[0].time_to_sleep = ft_atol(argv[4]);
+	philo[0].n_to_eat = n_to_eat;
+	index = 1;
+	while (index < n_philo)
+	{
+		memcpy(&philo[index], &philo[0], sizeof(t_philo));
+		philo[index].index = index;
+		index++;
+	}
+}
+
 /*
 **	Function: philo_store_argv
 **
@@ -65,30 +86,21 @@ static int	check_val(int argc, char **argv)
 **	  - argv[5]: number_of_times_each_philosopher_must_eat (optional)
 */
 
-int			philo_store_argv(int argc, char **argv, t_philo **philo,
-															long *n_philo)
+int			philo_store_argv(int argc, char **argv, t_philo **philo)
 {
-	long	cnt;
+	long	n_philo;
 	long	n_to_eat;
 
 	if (check_val(argc, argv))
 		return (-1);
-	if ((*n_philo = ft_atol(argv[1])) < 1)
+	if ((n_philo = ft_atol(argv[1])) < 1)
 		return (philo_puterr_and_return("Invalid argument", -1));
 	if (argc == 6 && (n_to_eat = ft_atol(argv[5])) < 1)
 		return (philo_puterr_and_return("Invalid argument", -1));
 	else if (argc != 6)
-		n_to_eat = 0;
-	if (!((*philo) = (t_philo *)malloc(sizeof(t_philo) * *n_philo)))
+		n_to_eat = -1;
+	if (!((*philo) = (t_philo *)malloc(sizeof(t_philo) * n_philo)))
 		return (philo_puterr_and_return("Cannot allocate memory", -1));
-	cnt = 0;
-	while (cnt < *n_philo)
-	{
-		(*philo)[cnt].time_to_die = ft_atol(argv[2]);
-		(*philo)[cnt].time_to_eat = ft_atol(argv[3]);
-		(*philo)[cnt].time_to_sleep = ft_atol(argv[4]);
-		(*philo)[cnt].n_to_eat = n_to_eat;
-		cnt++;
-	}
+	convert_argv(argv, *philo, n_philo, n_to_eat);
 	return (0);
 }

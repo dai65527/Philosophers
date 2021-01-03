@@ -6,7 +6,7 @@
 #    By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/22 12:41:57 by dnakano           #+#    #+#              #
-#    Updated: 2020/12/22 18:55:52 by dnakano          ###   ########.fr        #
+#    Updated: 2021/01/02 19:53:19 by dnakano          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,11 @@ SRCS		:=	main.c \
 				ft_isspace.c \
 				ft_strlcat.c \
 				ft_strlcpy.c \
-				ft_strlen.c
+				ft_strlen.c \
+				philo_init.c \
+				philo_activity.c \
+				philo_free_ret.c \
+				philo_gettime.c
 OBJS		:=	$(SRCS:%.c=%.o)
 HEADERS		:=	philo_one.h \
 				philo_utils.h

@@ -6,19 +6,35 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 12:57:20 by dnakano           #+#    #+#             */
-/*   Updated: 2020/12/22 19:16:28 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 10:36:09 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <stdlib.h>
+#include <pthread.h>
 #include "philo_one.h"
+#include <stdio.h>   
 
 int		main(int argc, char **argv)
 {
+	long		i;
 	long		n_philo;
 	t_philo		*philo;
+	pthread_t	*philo_pthread;
 
-	if (philo_store_argv(argc, argv, &philo, &n_philo) < 0)
+	if (philo_store_argv(argc, argv, &philo) < 0)
 		return (1);
-	return (0);
+	if (philo_init(&philo_pthread, philo->n_philo) < 0)
+		return (1);
+	n_philo = philo[0].n_philo;
+	i = 0;
+	while (i < n_philo)
+	{
+		pthread_create(&philo_pthread[i], NULL, philo_activity, &philo[i]);
+		i++;
+	}
+	i = 0;
+	while (i < n_philo)
+		pthread_join(philo_pthread[i++], NULL);
+	return (philo_free_ret(philo, philo_pthread, 1));
 }
