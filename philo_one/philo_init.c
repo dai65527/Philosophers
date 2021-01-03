@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 09:01:47 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/03 11:09:51 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 14:03:09 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,16 @@ int			philo_init(pthread_t **philo_pthread, long n_philo)
 	g_n_finished = 0;
 	if (!(g_fork = (int *)malloc(sizeof(int) * n_philo)))
 		return (-1);
+	if (!(g_fork_rsvd_by = (int *)malloc(sizeof(int) * n_philo)))
+		return (-1);
 	i = 0;
 	while (i < n_philo)
 	{
 		g_fork[i] = 0;
+		g_fork_rsvd_by[i] = -1;
 		i++;
 	}
 	if (mutex_init() < 0)
-		return (philo_free_ret(NULL, NULL, -1));
+		return (-1);
 	return (0);
 }

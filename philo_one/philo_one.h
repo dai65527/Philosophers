@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 13:05:10 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/03 11:50:58 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 14:03:09 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "philo_utils.h"
 
 int				*g_fork;
+int				*g_fork_rsvd_by;
 pthread_mutex_t	g_mutex_fork;
 int				g_flgend;
 pthread_mutex_t	g_mutex_flgend;

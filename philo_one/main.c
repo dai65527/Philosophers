@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 12:57:20 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/03 12:12:30 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 13:59:17 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		main(int argc, char **argv)
 	if (philo_store_argv(argc, argv, &philo) < 0)
 		return (1);
 	if (philo_init(&philo_pthread, philo->n_philo) < 0)
-		return (1);
+		return (philo_free_ret(NULL, NULL, 1));
 	n_philo = philo[0].n_philo;
 	i = 0;
 	while (i < n_philo)

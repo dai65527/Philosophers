@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 09:29:56 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/03 11:58:14 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 14:33:30 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	finish_eating(t_philo *philo)
 	flgend = 0;
 	pthread_mutex_lock(&g_mutex_fork);
 	g_fork[philo->index] = 0;
-	g_fork[philo->index % philo->n_philo + 1] = 0;
+	g_fork[(philo->index + 1) % philo->n_philo] = 0;
 	pthread_mutex_unlock(&g_mutex_fork);
 	if (philo->n_to_eat > 0)
 	{
@@ -43,18 +43,35 @@ static int	finish_eating(t_philo *philo)
 	return (flgend);
 }
 
+static int	fork_is_available(t_philo *philo)
+{
+	if (!g_fork[philo->index] && !g_fork[(philo->index + 1) % philo->n_philo]
+		&& (g_fork_rsvd_by[philo->index] == philo->index
+			|| g_fork_rsvd_by[philo->index] == -1)
+		&& (g_fork_rsvd_by[(philo->index + 1) % philo->n_philo] == philo->index
+			|| g_fork_rsvd_by[(philo->index + 1) % philo->n_philo] == -1))
+		return (1);
+	if (g_fork_rsvd_by[philo->index] == -1)
+		g_fork_rsvd_by[philo->index] = philo->index;
+	if (g_fork_rsvd_by[(philo->index + 1) % philo->n_philo] == -1)
+		g_fork_rsvd_by[(philo->index + 1) % philo->n_philo] = philo->index;
+	return (0);
+}
+
 static int	get_fork(t_philo *philo)
 {
 	long	time_taken_fork;
 
 	pthread_mutex_lock(&g_mutex_fork);
-	if (!g_fork[philo->index] && !g_fork[philo->index % philo->n_philo + 1])
+	if (fork_is_available(philo))
 	{
 		time_taken_fork = philo_gettime();
 		g_fork[philo->index] = 1;
 		philo_putstatus(philo->index, time_taken_fork, PHILO_S_TAKENFORK);
+		g_fork_rsvd_by[philo->index] = -1;
 		g_fork[philo->index % philo->n_philo + 1] = 1;
 		philo_putstatus(philo->index, time_taken_fork, PHILO_S_TAKENFORK);
+		g_fork_rsvd_by[(philo->index + 1) % philo->n_philo] = -1;
 		pthread_mutex_unlock(&g_mutex_fork);
 		return (1);
 	}

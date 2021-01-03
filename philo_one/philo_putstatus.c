@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:18:54 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/03 12:23:26 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/03 12:55:51 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		philo_putstatus(long philo_index, long time_ms, int philo_status)
 	buf[0] = '\0';
 	cat_number(buf, time_ms);
 	ft_strlcat(buf, " ", sizeof(buf));
-	cat_number(buf, philo_index);
+	cat_number(buf, philo_index + 1);
 	if (philo_status == PHILO_S_TAKENFORK)
 		ft_strlcat(buf, " has taken a fork\n", sizeof(buf));
 	else if (philo_status == PHILO_S_EATING)
