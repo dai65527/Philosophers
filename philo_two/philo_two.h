@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 13:05:10 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 10:23:09 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 10:27:55 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int				g_n_finished;
 sem_t			*g_sem_write;
 
 int				philo_init(pthread_t **philo_pthread, long n_philo);
-void 			philo_sem_unlink(void);
+void			philo_sem_unlink(void);
 void			philo_sem_close(void);
 int				philo_sem_open(long n_philo);
 void			*philo_activity(void *philo_arg);

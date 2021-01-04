@@ -6,16 +6,15 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 21:51:03 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 09:53:44 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 10:27:52 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <semaphore.h>
 #include <stddef.h>
 #include "philo_two.h"
 
-void 		philo_sem_unlink(void)
+void		philo_sem_unlink(void)
 {
 	sem_unlink(SEM_FORK);
 	sem_unlink(SEM_FORK_ACCS);
