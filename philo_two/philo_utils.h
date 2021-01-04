@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 13:23:47 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 10:59:36 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 11:27:43 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 # include <sys/types.h>
 
-# define PHILO_WHILE_INTERVAL_USEC	300
+# define PHILO_WHILE_INTERVAL_USEC	500
 # define PHILO_S_TAKENFORK			1
 # define PHILO_S_EATING				2
 # define PHILO_S_SLEEPING			3

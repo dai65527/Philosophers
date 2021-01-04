@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 09:29:56 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 11:17:05 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 11:51:00 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,15 +90,15 @@ static long	get_fork(t_philo *philo, long time_start_eating)
 	create_deadtimerthread(philo, time_start_eating);
 	sem_wait(g_sem_fork);
 	if ((time_now = philo_gettime()) < 0 || philo_check_dead(philo, 0))
-		return (sem_post(g_sem_fork_accs) - 1);
+		return (sem_post(g_sem_fork_accs) + sem_post(g_sem_fork) - 1);
 	philo_putstatus(philo->index, time_now, PHILO_S_TAKENFORK);
 	sem_wait(g_sem_fork);
 	sem_wait(g_sem_flg_getfork);
 	g_flg_getfork = 1;
 	sem_post(g_sem_flg_getfork);
 	sem_post(g_sem_fork_accs);
-	if ((time_now = philo_gettime()) < 0 || philo_check_dead(philo, 0))
-		return (sem_post(g_sem_fork_accs) - 1);
+	if ((time_now = philo_gettime()) < 0 || philo_check_dead(philo, time_now))
+		return (sem_post(g_sem_fork) + sem_post(g_sem_fork) - 1);
 	philo_putstatus(philo->index, time_now, PHILO_S_TAKENFORK);
 	return (time_now);
 }
@@ -111,7 +111,11 @@ long		philo_eat(t_philo *philo, long time_start_eating)
 	while (!philo_has_finished(time_start_eating, philo->time_to_eat))
 	{
 		if (philo_check_dead(philo, time_start_eating))
+		{
+			sem_post(g_sem_fork);
+			sem_post(g_sem_fork);
 			return (-1);
+		}
 		usleep(PHILO_WHILE_INTERVAL_USEC);
 	}
 	sem_post(g_sem_fork);
