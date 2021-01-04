@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 12:57:20 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 21:05:09 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 21:51:13 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static pid_t	create_philo_process(t_philo *philo)
 	else if (pid == 0)
 	{
 		philo_activity(philo);
-		exit (0);
+		exit(0);
 	}
 	else
 		return (pid);
 }
 
-int		main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	long		i;
 	long		n_philo;

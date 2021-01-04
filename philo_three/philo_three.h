@@ -6,12 +6,12 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 13:05:10 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 21:11:50 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 21:52:27 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_TWO_H
-# define PHILO_TWO_H
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H
 
 # include "philo_utils.h"
 # include <semaphore.h>
