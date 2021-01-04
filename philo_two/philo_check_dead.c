@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:40:03 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 11:00:59 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 22:34:11 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int			philo_check_dead(t_philo *philo, long time_start_eating)
 							time_now - time_start_eating >= philo->time_to_die))
 	{
 		g_flgend = 1;
-		philo_putstatus(philo->index, time_now, PHILO_S_DEAD);
 		sem_post(g_sem_flgend);
+		philo_putstatus(philo->index, time_now, PHILO_S_DEAD);
 		return (1);
 	}
 	sem_post(g_sem_flgend);
