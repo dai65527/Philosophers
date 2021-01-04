@@ -6,14 +6,14 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:40:03 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 21:04:07 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 23:42:07 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <signal.h>
+#include <stdlib.h>
 #include "philo_three.h"
 
-int			philo_check_dead(t_philo *philo, long time_start_eating)
+void		philo_check_dead(t_philo *philo, long time_start_eating)
 {
 	long	time_now;
 
@@ -21,7 +21,6 @@ int			philo_check_dead(t_philo *philo, long time_start_eating)
 							time_now - time_start_eating >= philo->time_to_die))
 	{
 		philo_putstatus(philo->index, time_now, PHILO_S_DEAD);
-		kill(0, SIGINT);
+		exit(PHILO_EXIT_DIED);
 	}
-	return (0);
 }

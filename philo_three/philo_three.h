@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 13:05:10 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 21:52:27 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 23:39:40 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "philo_utils.h"
 # include <semaphore.h>
 
+# define PHILO_EXIT_FULL	0
+# define PHILO_EXIT_DIED	1
 # define SEM_FORK			"philo_two_fork"
 # define SEM_FORK_ACCS		"philo_two_fork_accs"
 # define SEM_FLG_GETFORK	"philo_two_flg_getfork"
@@ -37,10 +39,10 @@ int				philo_init(pid_t **pid, long n_philo);
 void			philo_sem_unlink(void);
 void			philo_sem_close(void);
 int				philo_sem_open(long n_philo);
-void			*philo_activity(t_philo *philo);
+void			philo_activity(t_philo *philo);
 long			philo_eat(t_philo *philo, long time_start_eating);
-int				philo_sleep(t_philo *philo, long time_start_eating);
-int				philo_check_dead(t_philo *philo, long time_start_eating);
+void			philo_sleep(t_philo *philo, long time_start_eating);
+void			philo_check_dead(t_philo *philo, long time_start_eating);
 int				philo_free_ret(t_philo *philo, pid_t *pid, int ret);
 
 #endif

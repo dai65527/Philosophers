@@ -6,24 +6,23 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 09:29:56 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 21:01:37 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 23:41:41 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include <pthread.h>
-#include <signal.h>
 #include "philo_three.h"
 
-static int	finish_eating(t_philo *philo)
+static void	finish_eating(t_philo *philo)
 {
 	if (philo->n_to_eat > 0)
 	{
 		philo->n_to_eat--;
 		if (philo->n_to_eat == 0)
-			return (1);
+			exit(PHILO_EXIT_FULL);
 	}
-	return (0);
 }
 
 void		*deadtimer(void *timerinfo)
@@ -45,7 +44,7 @@ void		*deadtimer(void *timerinfo)
 	}
 	philo_putstatus(((t_timerinfo *)timerinfo)->philo->index,
 											time_now, PHILO_S_DEAD);
-	kill(0, SIGINT);
+	exit(PHILO_EXIT_DIED);
 	return (NULL);
 }
 
@@ -69,7 +68,7 @@ static long	get_fork(t_philo *philo, long time_start_eating)
 	create_deadtimerthread(philo, time_start_eating);
 	sem_wait(g_sem_fork);
 	if ((time_now = philo_gettime()) < 0)
-		kill(0, SIGINT);
+		exit(PHILO_EXIT_DIED);
 	philo_putstatus(philo->index, time_now, PHILO_S_TAKENFORK);
 	sem_wait(g_sem_fork);
 	sem_wait(g_sem_flg_getfork);
@@ -77,7 +76,7 @@ static long	get_fork(t_philo *philo, long time_start_eating)
 	sem_post(g_sem_flg_getfork);
 	sem_post(g_sem_fork_accs);
 	if ((time_now = philo_gettime()) < 0)
-		kill(0, SIGINT);
+		exit(PHILO_EXIT_DIED);
 	philo_putstatus(philo->index, time_now, PHILO_S_TAKENFORK);
 	return (time_now);
 }
@@ -85,21 +84,15 @@ static long	get_fork(t_philo *philo, long time_start_eating)
 long		philo_eat(t_philo *philo, long time_start_eating)
 {
 	if ((time_start_eating = get_fork(philo, time_start_eating)) < 0)
-		return (-1);
+		exit(PHILO_EXIT_DIED);
 	philo_putstatus(philo->index, time_start_eating, PHILO_S_EATING);
 	while (!philo_has_finished(time_start_eating, philo->time_to_eat))
 	{
-		if (philo_check_dead(philo, time_start_eating))
-		{
-			sem_post(g_sem_fork);
-			sem_post(g_sem_fork);
-			return (-1);
-		}
+		philo_check_dead(philo, time_start_eating);
 		usleep(PHILO_WHILE_INTERVAL_USEC);
 	}
 	sem_post(g_sem_fork);
 	sem_post(g_sem_fork);
-	if (finish_eating(philo))
-		return (-1);
+	finish_eating(philo);
 	return (time_start_eating);
 }

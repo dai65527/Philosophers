@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 12:57:20 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 21:51:13 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 23:42:55 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,38 @@ static pid_t	create_philo_process(t_philo *philo)
 	else if (pid == 0)
 	{
 		philo_activity(philo);
-		exit(0);
+		return (-1);
 	}
 	else
 		return (pid);
+}
+
+static int		wait_philo_process(pid_t *pid, long n_philo)
+{
+	long		i;
+	int			status;
+
+	i = 0;
+	while (i < n_philo)
+	{
+		waitpid(-1, &status, 0);
+		if (WEXITSTATUS(status) == 1)
+		{
+			i = 0;
+			while (i < n_philo)
+				kill(pid[i++], SIGINT);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
 int				main(int argc, char **argv)
 {
 	long		i;
 	long		n_philo;
+	int			ret;
 	pid_t		*pid;
 	t_philo		*philo;
 
@@ -53,7 +75,6 @@ int				main(int argc, char **argv)
 		}
 		i++;
 	}
-	while (--i >= 0)
-		waitpid(pid[i], NULL, 0);
-	return (philo_free_ret(philo, pid, 0));
+	ret = wait_philo_process(pid, n_philo);
+	return (philo_free_ret(philo, pid, ret));
 }
