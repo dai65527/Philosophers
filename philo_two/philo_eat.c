@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 09:29:56 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 10:18:33 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 11:17:05 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,28 @@ static int	finish_eating(t_philo *philo)
 
 void		*deadtimer(void *timerinfo)
 {
-	int			flgend;
-	long		philo_index;
 	long		time_now;
-	long		time_to_die;
 
-	philo_index = ((t_timerinfo *)timerinfo)->philo->index;
-	time_to_die = ((t_timerinfo *)timerinfo)->philo->time_to_die;
 	while ((time_now = philo_gettime()) >= 0 &&
-		time_now - ((t_timerinfo *)timerinfo)->time_start_eating < time_to_die)
+		time_now - ((t_timerinfo *)timerinfo)->time_start_eating
+			<= ((t_timerinfo *)timerinfo)->philo->time_to_die)
 	{
 		sem_wait(g_sem_flg_getfork);
 		sem_wait(g_sem_flgend);
-		flgend = g_flg_getfork || g_flgend;
+		if (g_flg_getfork || g_flgend)
+		{
+			sem_post(g_sem_flgend);
+			sem_post(g_sem_flg_getfork);
+			return (NULL);
+		}
 		sem_post(g_sem_flgend);
 		sem_post(g_sem_flg_getfork);
-		if (flgend)
-			return (NULL);
-		usleep(PHILO_WHILE_INTERVAL_USEC);
+		usleep(PHILO_WHILE_INTERVAL_USEC / 10);
 	}
 	sem_wait(g_sem_flgend);
 	if (!g_flgend)
-		philo_putstatus(philo_index, time_now, PHILO_S_DEAD);
+		philo_putstatus(((t_timerinfo *)timerinfo)->philo->index,
+												time_now, PHILO_S_DEAD);
 	g_flgend = 1;
 	sem_post(g_sem_flgend);
 	return (NULL);
@@ -96,9 +96,9 @@ static long	get_fork(t_philo *philo, long time_start_eating)
 	sem_wait(g_sem_flg_getfork);
 	g_flg_getfork = 1;
 	sem_post(g_sem_flg_getfork);
+	sem_post(g_sem_fork_accs);
 	if ((time_now = philo_gettime()) < 0 || philo_check_dead(philo, 0))
 		return (sem_post(g_sem_fork_accs) - 1);
-	sem_post(g_sem_fork_accs);
 	philo_putstatus(philo->index, time_now, PHILO_S_TAKENFORK);
 	return (time_now);
 }
