@@ -6,7 +6,7 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/02 09:29:56 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/03 15:35:22 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 20:58:51 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ long		philo_eat(t_philo *philo, long time_start_eating)
 			return (-1);
 		usleep(PHILO_WHILE_INTERVAL_USEC);
 	}
-	if (finish_eating(philo) < 0)
+	if (finish_eating(philo))
 		return (-1);
 	return (time_start_eating);
 }
