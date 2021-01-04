@@ -6,13 +6,13 @@
 /*   By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/03 11:18:54 by dnakano           #+#    #+#             */
-/*   Updated: 2021/01/04 09:11:16 by dnakano          ###   ########.fr       */
+/*   Updated: 2021/01/04 21:10:08 by dnakano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pthread.h>
 #include <unistd.h>
-#include <philo_two.h>
+#include <philo_three.h>
 
 static int	get_digit(long num)
 {

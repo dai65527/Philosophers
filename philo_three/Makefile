@@ -6,13 +6,13 @@
 #    By: dnakano <dnakano@student.42tokyo.jp>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/12/22 12:41:57 by dnakano           #+#    #+#              #
-#    Updated: 2021/01/04 09:36:07 by dnakano          ###   ########.fr        #
+#    Updated: 2021/01/04 21:12:20 by dnakano          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC			:=	gcc
 CFLAGS		:=	-Wall -Wextra -Werror
-NAME		:=	philo_two
+NAME		:=	philo_three
 SRCS		:=	main.c \
 				philo_store_argv.c \
 				philo_has_finished.c \
